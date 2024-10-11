@@ -70,6 +70,11 @@ class ConfigContext(SyncedDataMixin, CloningMixin, CustomLinksMixin, ChangeLogge
         related_name='+',
         blank=True
     )
+    manufacturers = models.ManyToManyField(
+        to='dcim.Manufacturer',
+        related_name='+',
+        blank=True
+    )
     device_types = models.ManyToManyField(
         to='dcim.DeviceType',
         related_name='+',
@@ -120,7 +125,7 @@ class ConfigContext(SyncedDataMixin, CloningMixin, CustomLinksMixin, ChangeLogge
     objects = ConfigContextQuerySet.as_manager()
 
     clone_fields = (
-        'weight', 'is_active', 'regions', 'site_groups', 'sites', 'locations', 'device_types',
+        'weight', 'is_active', 'regions', 'site_groups', 'sites', 'locations', 'manufacturers', 'device_types',
         'roles', 'platforms', 'cluster_types', 'cluster_groups', 'clusters', 'tenant_groups',
         'tenants', 'tags', 'data',
     )

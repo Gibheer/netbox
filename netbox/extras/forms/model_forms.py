@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 from core.forms.mixins import SyncedDataMixin
 from core.models import ObjectType
-from dcim.models import DeviceRole, DeviceType, Location, Platform, Region, Site, SiteGroup
+from dcim.models import DeviceRole, DeviceType, Location, Manufacturer, Platform, Region, Site, SiteGroup
 from extras.choices import *
 from extras.models import *
 from netbox.events import get_event_type_choices
@@ -523,6 +523,11 @@ class ConfigContextForm(SyncedDataMixin, forms.ModelForm):
         queryset=Location.objects.all(),
         required=False
     )
+    manufacturers = DynamicModelMultipleChoiceField(
+        label=_('Manufacturers'),
+        queryset=Manufacturer.objects.all(),
+        required=False
+    )
     device_types = DynamicModelMultipleChoiceField(
         label=_('Device types'),
         queryset=DeviceType.objects.all(),
@@ -577,7 +582,7 @@ class ConfigContextForm(SyncedDataMixin, forms.ModelForm):
         FieldSet('name', 'weight', 'description', 'data', 'is_active', name=_('Config Context')),
         FieldSet('data_source', 'data_file', 'auto_sync_enabled', name=_('Data Source')),
         FieldSet(
-            'regions', 'site_groups', 'sites', 'locations', 'device_types', 'roles', 'platforms', 'cluster_types',
+            'regions', 'site_groups', 'sites', 'locations', 'manufacturers', 'device_types', 'roles', 'platforms', 'cluster_types',
             'cluster_groups', 'clusters', 'tenant_groups', 'tenants', 'tags',
             name=_('Assignment')
         ),
@@ -587,7 +592,7 @@ class ConfigContextForm(SyncedDataMixin, forms.ModelForm):
         model = ConfigContext
         fields = (
             'name', 'weight', 'description', 'data', 'is_active', 'regions', 'site_groups', 'sites', 'locations',
-            'roles', 'device_types', 'platforms', 'cluster_types', 'cluster_groups', 'clusters', 'tenant_groups',
+            'roles', 'manufacturers', 'device_types', 'platforms', 'cluster_types', 'cluster_groups', 'clusters', 'tenant_groups',
             'tenants', 'tags', 'data_source', 'data_file', 'auto_sync_enabled',
         )
 

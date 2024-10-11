@@ -2,10 +2,11 @@ from rest_framework import serializers
 
 from core.api.serializers_.data import DataFileSerializer, DataSourceSerializer
 from dcim.api.serializers_.devicetypes import DeviceTypeSerializer
+from dcim.api.serializers_.manufacturers import ManufacturerSerializer
 from dcim.api.serializers_.platforms import PlatformSerializer
 from dcim.api.serializers_.roles import DeviceRoleSerializer
 from dcim.api.serializers_.sites import LocationSerializer, RegionSerializer, SiteSerializer, SiteGroupSerializer
-from dcim.models import DeviceRole, DeviceType, Location, Platform, Region, Site, SiteGroup
+from dcim.models import DeviceRole, DeviceType, Location, Manufacturer, Platform, Region, Site, SiteGroup
 from extras.models import ConfigContext, Tag
 from netbox.api.fields import SerializedPKRelatedField
 from netbox.api.serializers import ValidatedModelSerializer
@@ -44,6 +45,13 @@ class ConfigContextSerializer(ValidatedModelSerializer):
     locations = SerializedPKRelatedField(
         queryset=Location.objects.all(),
         serializer=LocationSerializer,
+        nested=True,
+        required=False,
+        many=True
+    )
+    manufacturers = SerializedPKRelatedField(
+        queryset=Manufacturer.objects.all(),
+        serializer=ManufacturerSerializer,
         nested=True,
         required=False,
         many=True
@@ -123,7 +131,7 @@ class ConfigContextSerializer(ValidatedModelSerializer):
         model = ConfigContext
         fields = [
             'id', 'url', 'display_url', 'display', 'name', 'weight', 'description', 'is_active', 'regions',
-            'site_groups', 'sites', 'locations', 'device_types', 'roles', 'platforms', 'cluster_types',
+            'site_groups', 'sites', 'locations', 'manufacturers', 'device_types', 'roles', 'platforms', 'cluster_types',
             'cluster_groups', 'clusters', 'tenant_groups', 'tenants', 'tags', 'data_source', 'data_path',
             'data_file', 'data_synced', 'data', 'created', 'last_updated',
         ]

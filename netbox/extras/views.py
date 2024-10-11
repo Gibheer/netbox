@@ -684,6 +684,7 @@ class ConfigContextView(generic.ObjectView):
             ('Site Groups', instance.site_groups.all),
             ('Sites', instance.sites.all),
             ('Locations', instance.locations.all),
+            ('Manufacturers', instance.manufacturers.all),
             ('Device Types', instance.device_types.all),
             ('Roles', instance.roles.all),
             ('Platforms', instance.platforms.all),
